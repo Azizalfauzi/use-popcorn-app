@@ -57,9 +57,14 @@ export default function App() {
       <Navbar>
         <Logo />
         <Search />
-        <NumResult />
+        <NumResult movies={movies} />
       </Navbar>
-      <Main movies={movies} />
+      <Main>
+        <ListBox movies={movies}>
+          <MovieList movies={movies} />
+        </ListBox>
+        <WacthedBox movie={movies} />
+      </Main>
     </>
   );
 }
@@ -98,16 +103,11 @@ function Search() {
   );
 }
 
-function Main({ movies }) {
-  return (
-    <main className="main">
-      <ListBox movies={movies} />
-      <WacthedBox />
-    </main>
-  );
+function Main({ children }) {
+  return <main className="main">{children}</main>;
 }
 
-function ListBox({ movies }) {
+function ListBox({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -117,7 +117,7 @@ function ListBox({ movies }) {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+      {isOpen1 && children}
     </div>
   );
 }
