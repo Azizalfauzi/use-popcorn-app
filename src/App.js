@@ -54,20 +54,18 @@ export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
-      <Navbar movies={movies} />
+      <Navbar>
+        <Logo />
+        <Search />
+        <NumResult />
+      </Navbar>
       <Main movies={movies} />
     </>
   );
 }
 
-function Navbar({ movies }) {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      <Search />
-      <NumResult movies={movies} />
-    </nav>
-  );
+function Navbar({ children }) {
+  return <nav className="nav-bar">{children}</nav>;
 }
 
 function NumResult({ movies }) {
