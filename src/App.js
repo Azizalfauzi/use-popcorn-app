@@ -51,7 +51,7 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 const KEY = "cefb801b";
-const query = "interstellar";
+const query = "asasqwasa";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -69,11 +69,14 @@ export default function App() {
         if (!res.ok)
           throw new Error("Something went wrong witj fetching movies");
         const data = await res.json();
+        if (data.Response === "False") throw new Error("Movie not found");
         setMovies(data.Search);
         setIsLoading(false);
       } catch (err) {
         console.log(err);
         setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchMovies();
