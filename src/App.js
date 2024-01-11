@@ -51,20 +51,32 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 const KEY = "cefb801b";
-const query = "asasqwasa";
+// const query = "interstellar";
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const tempQuery = "interstellar";
+
+  useEffect(function () {
+    console.log("After initial render");
+  }, []);
+
+  useEffect(function () {
+    console.log("After every render");
+  });
+
+  console.log("During render");
 
   useEffect(function () {
     async function fetchMovies() {
       try {
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${tempQuery}`
         );
         if (!res.ok)
           throw new Error("Something went wrong witj fetching movies");
@@ -86,7 +98,7 @@ export default function App() {
     <>
       <Navbar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
       </Navbar>
       <Main>
@@ -147,8 +159,7 @@ function Logo() {
   );
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
