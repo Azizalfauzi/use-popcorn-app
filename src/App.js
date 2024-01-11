@@ -69,6 +69,13 @@ export default function App() {
     console.log("After every render");
   });
 
+  useEffect(
+    function () {
+      console.log("D");
+    },
+    [query]
+  );
+
   console.log("During render");
 
   useEffect(function () {
