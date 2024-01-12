@@ -79,7 +79,7 @@ export default function App() {
 
   // console.log("During render");
   function handleSelectMovie(id) {
-    setSelectedId(id((selectedId) => (id === selectedId ? null : id)));
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
   }
 
   function handleCloseMovie() {
@@ -100,7 +100,6 @@ export default function App() {
           const data = await res.json();
           if (data.Response === "False") throw new Error("Movie not found");
           setMovies(data.Search);
-          console.log(data.Search);
           setIsLoading(false);
         } catch (error) {
           console.log(error.message);
@@ -162,6 +161,34 @@ export default function App() {
 }
 
 function MovieDetail({ selectedId, onCloseMovie }) {
+  const [movie, setMovie] = useState({});
+
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  console.log(title, year);
+
+  useEffect(function () {
+    async function getMovieDetails() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+      );
+      const data = await res.json();
+      setMovie(data);
+    }
+    getMovieDetails();
+  }, []);
+
   return (
     <div className="details">
       <button className="btn-back" onClick={onCloseMovie}>
