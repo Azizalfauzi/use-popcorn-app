@@ -79,7 +79,11 @@ export default function App() {
 
   // console.log("During render");
   function handleSelectMovie(id) {
-    setSelectedId(id);
+    setSelectedId(id((selectedId) => (id === selectedId ? null : id)));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
   }
 
   useEffect(
@@ -141,7 +145,10 @@ export default function App() {
         </Box>
         <Box>
           {selectedId ? (
-            <MovieDetail selectedId={selectedId} />
+            <MovieDetail
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
           ) : (
             <>
               <WatchSummary watched={watched} />
@@ -154,8 +161,15 @@ export default function App() {
   );
 }
 
-function MovieDetail({ selectedId }) {
-  return <div className="details">{selectedId}</div>;
+function MovieDetail({ selectedId, onCloseMovie }) {
+  return (
+    <div className="details">
+      <button className="btn-back" onClick={onCloseMovie}>
+        &larr;
+      </button>{" "}
+      {selectedId}
+    </div>
+  );
 }
 
 function Loader() {
