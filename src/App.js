@@ -113,9 +113,12 @@ export default function App() {
           if (data.Response === "False") throw new Error("Movie not found");
           setMovies(data.Search);
           setIsLoading(false);
+          setError("");
         } catch (error) {
           console.log(error.message);
-          setError(error.message);
+          if (error.name !== "AbortError") {
+            setError(error.message);
+          }
         } finally {
           setIsLoading(false);
         }
